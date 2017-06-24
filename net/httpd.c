@@ -13,6 +13,7 @@
 #include "../httpd/uipopt.h"
 #include "../httpd/uip.h"
 #include "../httpd/uip_arp.h"
+#include <configs/rt2880.h>
 
 #ifdef OLED_1_3
 #include <oled.h>
@@ -93,6 +94,7 @@ int do_http_upgrade(const ulong size, const int upgrade_type){
 		// TODO: add option to change ART partition offset,
 		// for those who want to use OFW on router with replaced/bigger FLASH
 		printf("\n\n****************************\n*      ART  UPGRADING      *\n* DO NOT POWER OFF DEVICE! *\n****************************\n\n");
+
 #if defined(WEBFAILSAFE_UPLOAD_ART_ADDRESS)
 		sprintf(buf,
 				"erase 0x%lX +0x%lX; cp.b 0x%lX 0x%lX 0x%lX",
@@ -114,12 +116,8 @@ int do_http_upgrade(const ulong size, const int upgrade_type){
 	} else {
 		return(-1);
 	}
-#if 0
 	printf("Executing: %s\n\n", buf);
-	return(run_command(buf, 0));
-
-	return(-1);
-#endif
+        ret = raspi_erase_write((unsigned char*)(WEBFAILSAFE_UPLOAD_RAM_ADDRESS),WEBFAILSAFE_UPLOAD_ART_ADDRESS,size);
 }
 
 // info about current progress of failsafe mode

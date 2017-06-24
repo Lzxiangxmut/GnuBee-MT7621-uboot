@@ -153,10 +153,10 @@ static int httpd_findandstore_firstchunk(void){
 
 				if(end){
 #if defined(WEBFAILSAFE_DISABLE_ART_UPGRADE)
-					printf("## Error: U-Boot upgrade is not allowed on this board!\n");
+					printf("## Error: Factory update is not allowed on this board!\n");
 					webfailsafe_upload_failed = 1;
 #else
-					printf("Upgrade type: ART\n");
+					printf("Upgrade type: Factory\n");
 					webfailsafe_upgrade_type = WEBFAILSAFE_UPGRADE_TYPE_ART;
 
 					// if we don't have ART partition offset, it means that it should be
@@ -167,6 +167,7 @@ static int httpd_findandstore_firstchunk(void){
 					// because we don't know flash size
 #ifdef CFG_DIRECT_FLASH_HTTPD
 					if(info->flash_id == FLASH_CUSTOM){
+						printf(" Flash ID = %x\n", info->flash_id);
 						printf("## Error: unknown FLASH type, can't update ART!\n");
 						webfailsafe_upload_failed = 1;
 					}

@@ -83,7 +83,11 @@ int do_http_upgrade(const ulong size, const int upgrade_type){
         OLED_Clear_page(6);
         OLED_ShowString(0,2,"DownLoad:100%");
 #endif
-        ret = raspi_erase_write((unsigned char*)(WEBFAILSAFE_UPLOAD_RAM_ADDRESS),WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS,size);
+	printf("magic number: 0x%08X should be 0x%08X %s\n", ntohl(*(uint32_t *)WEBFAILSAFE_UPLOAD_RAM_ADDRESS),  IH_MAGIC,\
+		       	(ntohl(*(uint32_t *)WEBFAILSAFE_UPLOAD_RAM_ADDRESS)==IH_MAGIC)?"Good":"BAD!");
+        if (ntohl(*(uint32_t *)WEBFAILSAFE_UPLOAD_RAM_ADDRESS)==IH_MAGIC){
+		ret = raspi_erase_write((unsigned char*)(WEBFAILSAFE_UPLOAD_RAM_ADDRESS),WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS,size);
+	}
 #ifdef OLED_1_3
         if(ret == 0)
             OLED_ShowString(0,6,"Loading Fireware");

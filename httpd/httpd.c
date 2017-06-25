@@ -149,7 +149,7 @@ static int httpd_findandstore_firstchunk(void){
 #endif /* if defined(WEBFAILSAFE_DISABLE_UBOOT_UPGRADE) */
 			} else {
 
-				end = (char *)strstr((char *)start, "name=\"art\"");
+				end = (char *)strstr((char *)start, "name=\"factory\"");
 
 				if(end){
 #if defined(WEBFAILSAFE_DISABLE_ART_UPGRADE)
